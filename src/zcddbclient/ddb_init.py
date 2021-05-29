@@ -2,13 +2,17 @@
 
 import boto3
 import logging
-from env_setup import DDB_TABLE_NAME
+from .env_setup import DDB_TABLE_NAME
+from .constants import AWS_REGION
 
+boto3.setup_default_session(region_name=AWS_REGION)
 dynamodb = boto3.client('dynamodb')
 
 
 def create_ddb():
+    logging.info(f"Creating DynamoDB table {DDB_TABLE_NAME}...")
     try:
+
         dynamodb.create_table(
             TableName=DDB_TABLE_NAME,
             AttributeDefinitions=[
@@ -37,6 +41,5 @@ def create_ddb():
             }
         )
         logging.info(f"Table {DDB_TABLE_NAME} created successfully.")
-    except Exception as e:
-        logging.error("Could not create table. Error:")
-        logging.error(e)
+    except dynamodb.exceptions.ResourceInUseException as e:
+        logging.info(f"Table {DDB_TABLE_NAME} already exists.")
