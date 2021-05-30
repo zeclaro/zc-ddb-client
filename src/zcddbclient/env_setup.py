@@ -1,7 +1,8 @@
 """
 Module to:
-- assist with the setup of AWS credentials and the target DDB.
+-validate ~/.aws/credentials and ~/.aws/config are present
 - read the ~/.zc-ddb-client-rc file
+    - target DDB
 """
 import logging
 

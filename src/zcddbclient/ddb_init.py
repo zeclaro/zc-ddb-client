@@ -4,9 +4,7 @@ import boto3
 from botocore.exceptions import ClientError
 import logging
 from .env_setup import DDB_TABLE_NAME
-from .constants import AWS_REGION
 
-boto3.setup_default_session(region_name=AWS_REGION)
 dynamodb = boto3.resource('dynamodb')
 
 
