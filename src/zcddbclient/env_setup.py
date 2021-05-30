@@ -4,14 +4,16 @@ Module to:
 - read the ~/.zc-ddb-client-rc file
     - DDB table name
 """
-from .constants import AWS_CREDENTIALS_PATH, AWS_CONFIG_PATH
+from .constants import AWS_CREDENTIALS_PATH, AWS_CONFIG_PATH, CONFIG_FILE_PATH
 import logging
 from pathlib import Path
 import errno
 import os
+import yaml
 
 
 def check_aws_setup_files_exist():
+    """ Ensures the AWS configuration files are there. Otherwise boto3 will complain. """
     aws_credentials_file = Path(AWS_CREDENTIALS_PATH)
     aws_config_file = Path(AWS_CONFIG_PATH)
     if not(aws_credentials_file.is_file()):
@@ -25,7 +27,11 @@ def check_aws_setup_files_exist():
             errno.ENOENT, os.strerror(errno.ENOENT), AWS_CONFIG_PATH)
 
 
-def read_config_file():
-    
-    pass
-DDB_TABLE_NAME = "zc-measurements"
+def get_ddb_table_name():
+    """ Gets DynamoDB table name. """
+    with open(CONFIG_FILE_PATH) as file:
+        config_list = yaml.load(file, Loader=yaml.FullLoader)
+        return config_list["dynamo-db"]["table-name"]
+
+
+DDB_TABLE_NAME = get_ddb_table_name()

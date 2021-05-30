@@ -9,6 +9,7 @@ dynamodb = boto3.resource('dynamodb')
 
 
 def create_ddb():
+    """ Creates the DDB table, if it doesn't already exists. """
     logging.info(f"Creating DynamoDB table {DDB_TABLE_NAME}...")
     try:
         dynamodb.create_table(
@@ -41,6 +42,7 @@ def create_ddb():
         logging.info(f"Table {DDB_TABLE_NAME} created successfully.")
     # except dynamodb.client.exceptions.ResourceInUseException as e:
     except ClientError as e:
-        logging.info(e.response)
         if e.response['Error']['Code'] == "ResourceInUseException":
             logging.info(f"Table {DDB_TABLE_NAME} already exists.")
+        else:
+            logging.error(e)
