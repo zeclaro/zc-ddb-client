@@ -5,8 +5,9 @@ from .env_setup import DDB_TABLE_NAME
 from datetime import datetime
 from .constants import UUID_ORIGIN_DATE, TIME_STAMP_FORMAT
 
-dynamodb = boto3.client('dynamodb')
-pass
+dynamodb = boto3.resource('dynamodb')
+table = dynamodb.Table(DDB_TABLE_NAME)
+
 
 def _generate_uuid(device_id: str):
     origin = datetime.strptime(UUID_ORIGIN_DATE, TIME_STAMP_FORMAT)
@@ -16,18 +17,19 @@ def _generate_uuid(device_id: str):
 
 
 def write_item(*, qualifier: str, value: float, unit: str, device_id: str, location: str):
-
+    item_uuid = _generate_uuid(device_id)
+    logging.debug(f"Writing item {item_uuid} in table {DDB_TABLE_NAME}")
     now = datetime.now()
     item = dict()
 
-    item["item_id"] = _generate_uuid(device_id)
-    item["timestamp"] = now.strftime(TIME_STAMP_FORMAT)
+    item["PK"] = item_uuid
+    item["SK"] = now.strftime(TIME_STAMP_FORMAT)
     item["qualifier"] = qualifier
     item["value"] = value
     item["unit"] = unit
     item["device_id"] = device_id
     item["location"] = location
 
-    response = table.put_item(item)
+    response = table.put_item(Item=item)
 
     return response
