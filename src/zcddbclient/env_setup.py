@@ -11,7 +11,7 @@ import errno
 import os
 
 
-def check_aws_setup_files():
+def check_aws_setup_files_exist():
     aws_credentials_file = Path(AWS_CREDENTIALS_PATH)
     aws_config_file = Path(AWS_CONFIG_PATH)
     if not(aws_credentials_file.is_file()):
@@ -25,5 +25,7 @@ def check_aws_setup_files():
             errno.ENOENT, os.strerror(errno.ENOENT), AWS_CONFIG_PATH)
 
 
-# TODO: read ~/.zc-ddb-client-rc file
+def read_config_file():
+    
+    pass
 DDB_TABLE_NAME = "zc-measurements"

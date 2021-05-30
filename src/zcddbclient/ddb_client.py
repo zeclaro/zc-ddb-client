@@ -3,14 +3,14 @@ import boto3
 import logging
 from .env_setup import DDB_TABLE_NAME
 from datetime import datetime
-from .constants import UUID_ORIGIN_DATE, TIME_STAMP_FORMAT
+from .constants import UUID_GENERATION_ORIGIN_DATE, TIME_STAMP_FORMAT
 
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table(DDB_TABLE_NAME)
 
 
 def _generate_uuid(device_id: str):
-    origin = datetime.strptime(UUID_ORIGIN_DATE, TIME_STAMP_FORMAT)
+    origin = datetime.strptime(UUID_GENERATION_ORIGIN_DATE, TIME_STAMP_FORMAT)
     now = datetime.now()
     microseconds = (now - origin).total_seconds() * 1000 * 1000
     return f"#{device_id}#{int(microseconds)}"

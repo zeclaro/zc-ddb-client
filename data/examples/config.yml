@@ -1,0 +1,2 @@
+dynamo-db:
+  table-name: zc-measurements
