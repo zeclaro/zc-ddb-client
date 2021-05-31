@@ -37,5 +37,4 @@ twine==3.4.1
 urllib3==1.26.5
 webencodings==0.5.1
 yarg==0.1.9
--e git+https://github.com/zeclaro/zc-ddb-client.git@76465843b116c447b1d34e18daf184440e0837cf#egg=zcddbclient
 zipp==3.4.1
