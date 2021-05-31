@@ -1,4 +1,7 @@
-""" Provides functionality to read, write and delete records from the DynamoDB table. """
+""" Provides a DynamoDB client to handle operations against a measurements table. """
+# TODO:
+#   implement the other operations: read, delete, update
+
 import boto3
 import logging
 from .env_setup import DDB_TABLE_NAME
