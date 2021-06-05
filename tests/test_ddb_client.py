@@ -11,6 +11,10 @@ class DdbClientTests(unittest.TestCase):
     #   add more tests
     #   automate testing with Tox
 
+    # TODO: in the setUp() method:
+    #   setup the aws credentials and config files programmatically
+    #   can I mock the connection to DynamoDB?
+
     def test_create_item(self):
         ddb_client.write_item(
             qualifier="speed_test",
